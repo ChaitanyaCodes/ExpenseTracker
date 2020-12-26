@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Expense Tracker</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -20,11 +20,10 @@
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <span class="navbar-brand mb-0 h1">Xpers</span>
+      <span id="Total" class="navbar-brand mb-0 h1">Spendix</span>
     </nav>
     <div class="container-fluid bg-light" style="min-height: 100vh">
       <div class="container">
-        <h1 id="Total"></h1>
-
         <div class="jumbotron mt-4">
           <div class="input-group mb-3">
             <input
@@ -116,14 +115,11 @@
       hTotalElement.textContent = `Total : ${totalExpense}`;
 
       // show table here
-      const allExpenseHTML = allExpense.map((expense) =>
-        createListItem(expense)
-      );
+      // const allExpenseHTML = allExpense.map((expense) =>
+      //   createListItem(expense)
+      // );
 
-      const joinedAllExpenseHTML = allExpenseHTML.join("");
-
-      //console.log(joinedAllExpenseHTML);
-      tableElement.innerHTML = joinedAllExpenseHTML;
+      renderList(allExpense);
     }
 
     // Get the Button element
@@ -132,13 +128,36 @@
     // Listen to click Event
     increBtn.addEventListener("click", addExpense, false);
 
-    // controller functions
+    // get date string
     function getDateString(moment) {
       return moment.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
       });
+    }
+
+    // delete items function
+    function deleteItem(dateValue) {
+      console.log("deleteItem was called", dateValue);
+      // const newArr = [];
+      for (let i = 0; i < allExpense.length; i++) {
+        if (allExpense[i].moment.valueOf() === dateValue) {
+          allExpense.splice(i, 1);
+          // console.log(allExpense[i].valueOf());
+        }
+      }
+      renderList(allExpense);
+    }
+
+    // view layer
+    // render list function
+    function renderList(arrOfList) {
+      const allExpenseHTML = arrOfList.map((expense) =>
+        createListItem(expense)
+      );
+      const joinedAllExpenseHTML = allExpenseHTML.join("");
+      tableElement.innerHTML = joinedAllExpenseHTML;
     }
 
     // function to create list element
@@ -150,7 +169,11 @@
             </div>
             <div>
               <span class="px-5"> ${amount} </span>
-              <button type="button" class="btn btn-outline-danger btn-sm">
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                onclick="deleteItem(${moment.valueOf()})"
+                >
               <i class="fas fa-trash-alt"></i>
               </button>
             </div>
