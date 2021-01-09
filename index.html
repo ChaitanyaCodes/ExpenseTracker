@@ -77,6 +77,12 @@
 
     // get the desc element
     const inputDescEl = document.querySelector("#inputDesc");
+    
+    // Get the Button element
+    const increBtn = document.querySelector("#btnCounter");
+
+    // Listen to click Event
+    increBtn.addEventListener("click", addExpense, false);
 
     // get table element
     const tableElement = document.querySelector("#expenseTable");
@@ -121,12 +127,6 @@
 
       renderList(allExpense);
     }
-
-    // Get the Button element
-    const increBtn = document.querySelector("#btnCounter");
-
-    // Listen to click Event
-    increBtn.addEventListener("click", addExpense, false);
 
     // get date string
     function getDateString(moment) {
